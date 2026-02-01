@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Eesha 💖 Valentine Game</title>
-
 <style>
   body {
     margin: 0;
@@ -78,3 +77,141 @@
   .cell.selected {
     background: #ffb6d9;
     color: white;
+  }
+
+  .btns {
+    position: relative;
+    height: 80px;
+    margin-top: 25px;
+  }
+
+  #yes {
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+  }
+
+  #no {
+    position: absolute;
+    left: 10%;
+    background: #ddd;
+    color: #666;
+  }
+
+  .heart {
+    position: fixed;
+    bottom: 0;
+    font-size: 24px;
+    animation: floatUp 3s linear forwards;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-600px); opacity: 0; }
+  }
+
+  .bow {
+    font-size: 40px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+  <div class="bow">🎀</div>
+  <h1>Hi Eesha 💕</h1>
+  <p>I made you a tiny cute game.<br>
+  Win it to unlock something special 💗</p>
+  <button id="start">Start Game 🎀</button>
+</div>
+
+<audio id="music">
+  <source src="https://archive.org/download/stevie-wonder-my-cherie-amour/My%20Cherie%20Amour.mp3">
+</audio>
+
+<script>
+  const card = document.getElementById("card");
+  const music = document.getElementById("music");
+
+  // Start game button
+  document.getElementById("start").onclick = () => {
+    music.volume = 0.7;
+    music.play();
+    showGame();
+  };
+
+  function showGame() {
+    card.innerHTML = `
+      <h1>💗 Word Search 💗</h1>
+      <p>Find the word: <strong>LOVE</strong></p>
+      <div class="grid" id="grid"></div>
+    `;
+
+    const letters = ["L","O","V","E","A","S","H","X","P","K","I","T","Y","B","U","N","Y","💗","🎀","🌸","💕","C","U","T","E"];
+    const grid = document.getElementById("grid");
+    let selected = "";
+
+    letters.forEach(letter => {
+      const div = document.createElement("div");
+      div.className = "cell";
+      div.textContent = letter;
+      div.onclick = () => {
+        div.classList.add("selected");
+        selected += letter;
+        if (selected.includes("LOVE")) winGame();
+      };
+      grid.appendChild(div);
+    });
+  }
+
+  function winGame() {
+    card.innerHTML = `
+      <h1>✨ You Won! ✨</h1>
+      <p>You unlocked something very important 💖</p>
+      <button onclick="showQuestion()">Continue 🎀</button>
+    `;
+    for (let i = 0; i < 20; i++) spawnHeart();
+  }
+
+  function showQuestion() {
+    card.innerHTML = `
+      <h1>My Love 💕</h1>
+      <p>Will you be my Valentine?</p>
+      <div class="btns">
+        <button id="yes">YES 💗</button>
+        <button id="no">No 🙄</button>
+      </div>
+    `;
+
+    const no = document.getElementById("no");
+    no.onmouseover = () => {
+      no.style.left = Math.random() * 70 + "%";
+      no.style.top = Math.random() * 40 + "px";
+    };
+
+    document.getElementById("yes").onclick = celebrate;
+  }
+
+  function celebrate() {
+    card.innerHTML = `
+      <h1>💖 SHE SAID YES 💖</h1>
+      <p>Happy Valentine’s Day, Eesha.</p>
+      <p>Distance doesn’t change how much I care.</p>
+      <p>My cherie amour 💕</p>
+    `;
+    for (let i = 0; i < 40; i++) spawnHeart();
+  }
+
+  function spawnHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = ["💗","💕","🎀","🌸"][Math.floor(Math.random()*4)];
+    heart.style.left = Math.random() * 100 + "%";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+  }
+</script>
+
+</body>
+</html>
