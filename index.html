@@ -1,216 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pa">
 <head>
 <meta charset="UTF-8">
-<title>Eesha 💖 Valentine Game</title>
+<title>Eesha 💖 Valentine</title>
+<link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Pacifico&display=swap" rel="stylesheet">
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ffd6e8, #ffc0da);
-    font-family: "Comic Sans MS", "Poppins", cursive;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+body {
+    margin:0;
+    height:100vh;
+    background:#ffd6e8;
+    font-family:'Pacifico', cursive;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+}
 
-  .card {
-    background: #fff0f7;
-    border-radius: 30px;
-    padding: 35px;
-    width: 420px;
+.card {
+    background: rgba(255, 240, 247, 0.95);
+    border-radius: 35px;
+    padding: 40px;
+    width: 500px;
     text-align: center;
-    box-shadow: 0 25px 50px rgba(255,105,180,0.4);
-    animation: popIn 0.8s ease;
-    position: relative;
-  }
+    box-shadow:0 25px 50px rgba(255,105,180,0.5);
+    position:relative;
+    animation:popIn 0.8s ease;
+    z-index:2;
+}
 
-  @keyframes popIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
+@keyframes popIn {from {transform:scale(0.7); opacity:0} to {transform:scale(1);opacity:1}}
 
-  h1 {
-    color: #ff69b4;
-    margin-bottom: 10px;
-  }
+h1 {color:#ff69b4;margin-bottom:15px;font-size:38px}
+p {color:#555;font-size:20px}
 
-  p {
-    color: #555;
-    font-size: 18px;
-  }
+button {
+    background:#ff69b4;
+    border:none;
+    padding:14px 28px;
+    border-radius:50px;
+    font-size:20px;
+    cursor:pointer;
+    color:white;
+    margin-top:20px;
+    box-shadow:0 8px 20px rgba(255,105,180,0.5);
+    transition: transform 0.1s ease;
+}
+button:hover {transform:scale(1.1)}
 
-  button {
-    background: #ff69b4;
-    border: none;
-    padding: 14px 26px;
-    border-radius: 40px;
-    font-size: 18px;
-    cursor: pointer;
-    color: white;
-    margin-top: 20px;
-    box-shadow: 0 8px 20px rgba(255,105,180,0.5);
-  }
+.grid {display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-top:20px}
+.cell {background:white;border-radius:12px;padding:12px;font-size:18px;cursor:pointer;color:#ff69b4;box-shadow:0 4px 10px rgba(0,0,0,0.1);user-select:none}
+.cell.selected {background:#ffb6d9;color:white}
 
-  button:hover {
-    transform: scale(1.05);
-  }
+.btns {position:relative;height:80px;margin-top:25px}
+#yes {left:50%;transform:translateX(-50%);position:absolute}
+#no {position:absolute;left:10%;top:10px;background:#ddd;color:#666}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin-top: 20px;
-  }
-
-  .cell {
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    font-size: 20px;
-    cursor: pointer;
-    color: #ff69b4;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-
-  .cell.selected {
-    background: #ffb6d9;
-    color: white;
-  }
-
-  .btns {
-    position: relative;
-    height: 80px;
-    margin-top: 25px;
-  }
-
-  #yes {
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
-  }
-
-  #no {
-    position: absolute;
-    left: 10%;
-    background: #ddd;
-    color: #666;
-  }
-
-  .heart {
+.heart, .plushie, .star {
     position: fixed;
-    bottom: 0;
-    font-size: 24px;
-    animation: floatUp 3s linear forwards;
-  }
+    font-size:24px;
+    animation: floatUp 4s linear forwards;
+    z-index:1;
+}
 
-  @keyframes floatUp {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-600px); opacity: 0; }
-  }
+.plushie {width:50px;height:50px;}
+.star {font-size:18px; animation: sparkleAnim 2s linear infinite; color:yellow;}
 
-  .bow {
-    font-size: 40px;
-  }
+@keyframes floatUp {from {transform:translateY(0);opacity:1} to {transform:translateY(-600px);opacity:0}}
+@keyframes sparkleAnim {0%{transform:scale(0.5) rotate(0deg);opacity:0.8}50%{transform:scale(1) rotate(180deg);opacity:1}100%{transform:scale(0.5) rotate(360deg);opacity:0.8}}
+
+.bow {font-size:40px}
 </style>
 </head>
-
 <body>
 
 <div class="card" id="card">
-  <div class="bow">🎀</div>
-  <h1>Hi Eesha 💕</h1>
-  <p>I made you a tiny cute game.<br>
-  Win it to unlock something special 💗</p>
-  <button id="start">Start Game 🎀</button>
+    <div class="bow">🎀</div>
+    <h1>Hi Eesha 💕</h1>
+    <p>I made you a super cute game.<br>Win it to unlock your Valentine 💖</p>
+    <button id="start">Start Game 🎀</button>
 </div>
 
 <audio id="music">
-  <source src="https://archive.org/download/stevie-wonder-my-cherie-amour/My%20Cherie%20Amour.mp3">
+    <source src="https://archive.org/download/stevie-wonder-my-cherie-amour/My%20Cherie%20Amour.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-  const card = document.getElementById("card");
-  const music = document.getElementById("music");
+const card = document.getElementById("card");
+const music = document.getElementById("music");
 
-  // Start game button
-  document.getElementById("start").onclick = () => {
-    music.volume = 0.7;
-    music.play();
+// Start button triggers music reliably
+document.getElementById("start").onclick = () => {
+    music.volume=0.7;
+    music.play().catch(()=>{});
     showGame();
-  };
+}
 
-  function showGame() {
-    card.innerHTML = `
-      <h1>💗 Word Search 💗</h1>
-      <p>Find the word: <strong>LOVE</strong></p>
-      <div class="grid" id="grid"></div>
-    `;
+// HARDER word search
+function showGame(){
+    card.innerHTML=`<h1>💗 Word Search 💗</h1>
+    <p>Find the words: <strong>LOVE, HEART, HUG, KISS, SWEET</strong></p>
+    <div class="grid" id="grid"></div>`;
 
-    const letters = ["L","O","V","E","A","S","H","X","P","K","I","T","Y","B","U","N","Y","💗","🎀","🌸","💕","C","U","T","E"];
-    const grid = document.getElementById("grid");
-    let selected = "";
+    const words=["LOVE","HEART","HUG","KISS","SWEET"];
+    const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ💖🎀🌸💕🧸🐰".split("");
+    const grid=document.getElementById("grid");
+    let selected="";
 
-    letters.forEach(letter => {
-      const div = document.createElement("div");
-      div.className = "cell";
-      div.textContent = letter;
-      div.onclick = () => {
-        div.classList.add("selected");
-        selected += letter;
-        if (selected.includes("LOVE")) winGame();
-      };
-      grid.appendChild(div);
-    });
-  }
+    for(let i=0;i<144;i++){
+        const div=document.createElement("div");
+        div.className="cell";
+        div.textContent=letters[Math.floor(Math.random()*letters.length)];
+        div.onclick=()=>{
+            div.classList.add("selected");
+            selected+=div.textContent;
+            if(words.every(w=>selected.includes(w))) winGame();
+        }
+        grid.appendChild(div);
+    }
+}
 
-  function winGame() {
-    card.innerHTML = `
-      <h1>✨ You Won! ✨</h1>
-      <p>You unlocked something very important 💖</p>
-      <button onclick="showQuestion()">Continue 🎀</button>
-    `;
-    for (let i = 0; i < 20; i++) spawnHeart();
-  }
+// Win animation
+function winGame(){
+    card.innerHTML=`<h1>✨ You Won! ✨</h1>
+    <p>You unlocked something very special 💖</p>
+    <button onclick="showQuestion()">Continue 🎀</button>`;
+    for(let i=0;i<60;i++) spawnHeart();
+    for(let i=0;i<20;i++) spawnPlushie();
+    for(let i=0;i<30;i++) spawnStar();
+}
 
-  function showQuestion() {
-    card.innerHTML = `
-      <h1>My Love 💕</h1>
-      <p>Will you be my Valentine?</p>
-      <div class="btns">
+// Punjabi Valentine Question
+function showQuestion(){
+    card.innerHTML=`<h1>ਮੇਰੇ ਪਿਆਰੇ 💕</h1>
+    <p>ਕੀ ਤੁਸੀਂ ਮੇਰੇ ਵੈਲੇਨਟਾਈਨ ਬਣੋਗੇ?</p>
+    <div class="btns">
         <button id="yes">YES 💗</button>
         <button id="no">No 🙄</button>
-      </div>
-    `;
+    </div>`;
 
-    const no = document.getElementById("no");
-    no.onmouseover = () => {
-      no.style.left = Math.random() * 70 + "%";
-      no.style.top = Math.random() * 40 + "px";
-    };
+    const no=document.getElementById("no");
+    no.onmouseover=()=>{
+        no.style.left=Math.random()*90+"%";
+        no.style.top=Math.random()*70+"px";
+    }
 
-    document.getElementById("yes").onclick = celebrate;
-  }
+    document.getElementById("yes").onclick=celebrate;
+}
 
-  function celebrate() {
-    card.innerHTML = `
-      <h1>💖 SHE SAID YES 💖</h1>
-      <p>Happy Valentine’s Day, Eesha.</p>
-      <p>Distance doesn’t change how much I care.</p>
-      <p>My cherie amour 💕</p>
-    `;
-    for (let i = 0; i < 40; i++) spawnHeart();
-  }
+// Celebration animation
+function celebrate(){
+    card.innerHTML=`<h1>💖 SHE SAID YES 💖</h1>
+    <p>Happy Valentine’s Day, Eesha 💕</p>
+    <p>Distance can’t stop my love 💖</p>`;
+    for(let i=0;i<60;i++) spawnHeart();
+    for(let i=0;i<20;i++) spawnPlushie();
+    for(let i=0;i<50;i++) spawnStar();
+}
 
-  function spawnHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.textContent = ["💗","💕","🎀","🌸"][Math.floor(Math.random()*4)];
-    heart.style.left = Math.random() * 100 + "%";
+// Floating hearts
+function spawnHeart(){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.textContent=["💗","💕","🎀","🌸"][Math.floor(Math.random()*4)];
+    heart.style.left=Math.random()*100+"%";
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 3000);
-  }
+    setTimeout(()=>heart.remove(),4000);
+}
+
+// Floating plushies
+function spawnPlushie(){
+    const img=document.createElement("img");
+    img.src="https://i.imgur.com/qe9gQ6B.png"; // placeholder plushie PNG
+    img.className="plushie";
+    img.style.left=Math.random()*100+"%";
+    img.style.bottom="0px";
+    document.body.appendChild(img);
+    setTimeout(()=>img.remove(),4000);
+}
+
+// Floating stars
+function spawnStar(){
+    const star=document.createElement("div");
+    star.className="star";
+    star.textContent="✨";
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
+    document.body.appendChild(star);
+    setTimeout(()=>star.remove(),3000);
+}
 </script>
 
 </body>
