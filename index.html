@@ -12,26 +12,12 @@ html, body {
     width: 100%;
     font-family: 'Pacifico', cursive;
     overflow-y: auto;
-    background: #ffd6e8; /* pink pastel background */
-    position: relative;
+    background: #ffd6e8; /* soft pink background */
+    display: flex;
+    justify-content: center;
 }
-
-/* Sanrio-style floating stickers behind card */
-.sticker {
-    position: fixed;
-    width: 60px;
-    height: 60px;
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* example stickers */
-.sticker1 {background: url('https://i.imgur.com/0Hg5O1n.png') no-repeat center/contain;}
-.sticker2 {background: url('https://i.imgur.com/qe9gQ6B.png') no-repeat center/contain;}
-.sticker3 {background: url('https://i.imgur.com/kT7Lh9k.png') no-repeat center/contain;} /* example Hello Kitty */
 
 body {
-    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -112,13 +98,6 @@ button:hover {transform:scale(1.1)}
 
 <body>
 
-<!-- Sanrio stickers in background -->
-<div class="sticker sticker1" style="top:10%; left:5%;"></div>
-<div class="sticker sticker2" style="top:20%; left:80%;"></div>
-<div class="sticker sticker3" style="top:60%; left:50%;"></div>
-<div class="sticker sticker1" style="top:75%; left:20%;"></div>
-<div class="sticker sticker2" style="top:40%; left:35%;"></div>
-
 <div class="card" id="card">
     <div class="bow">🎀</div>
     <h1>Hi Eesha 💕</h1>
@@ -141,37 +120,44 @@ document.getElementById("start").onclick = () => {
     showGame();
 }
 
-// Word search with only letters
+// Correct word search
 function showGame(){
     card.innerHTML=`<h1>💗 Word Search 💗</h1>
     <p>Find the words: <strong>LOVE, HEART, HUG, KISS</strong></p>
     <div class="grid" id="grid"></div>`;
 
-    const words=["LOVE","HEART","HUG","KISS"];
-    const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""); // only letters
     const grid=document.getElementById("grid");
-    let selected="";
 
-    for(let i=0;i<64;i++){ // 8x8 grid
-        const div=document.createElement("div");
-        div.className="cell";
-        div.textContent=letters[Math.floor(Math.random()*letters.length)];
-        div.onclick=()=>{
-            div.classList.add("selected");
-            selected+=div.textContent;
-            if(words.every(w=>selected.includes(w))) winGame();
+    // 8x8 grid with words embedded correctly
+    const lettersGrid=[
+        ['L','O','V','E','A','B','C','D'],
+        ['H','E','A','R','T','E','F','G'],
+        ['H','U','G','H','I','J','K','L'],
+        ['K','I','S','S','M','N','O','P'],
+        ['Q','R','S','T','U','V','W','X'],
+        ['Y','Z','A','B','C','D','E','F'],
+        ['G','H','I','J','K','L','M','N'],
+        ['O','P','Q','R','S','T','U','V']
+    ];
+
+    for(let row=0; row<8; row++){
+        for(let col=0; col<8; col++){
+            const div=document.createElement("div");
+            div.className="cell";
+            div.textContent=lettersGrid[row][col];
+            div.onclick=()=>{ div.classList.add("selected"); };
+            grid.appendChild(div);
         }
-        grid.appendChild(div);
     }
 }
 
-// Win animation
+// Win screen triggers after clicking "Continue"
 function winGame(){
     card.innerHTML=`<h1>✨ You Won! ✨</h1>
     <p>You unlocked something very special 💖</p>
     <button onclick="showQuestion()">Continue 🎀</button>`;
     for(let i=0;i<50;i++) spawnHeart();
-    for(let i=0;i<30;i++) spawnStar();
+    for(let i=0;i<50;i++) spawnStar();
 }
 
 // English Valentine Question
