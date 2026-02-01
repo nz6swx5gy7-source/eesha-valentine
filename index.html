@@ -12,13 +12,26 @@ html, body {
     width: 100%;
     font-family: 'Pacifico', cursive;
     overflow-y: auto;
-    background: url('https://i.imgur.com/5vX6tQT.png') repeat; /* full kawaii background */
-    background-size: cover;
-    display: flex;
-    justify-content: center;
+    background: #ffd6e8; /* pink pastel background */
+    position: relative;
 }
 
+/* Sanrio-style floating stickers behind card */
+.sticker {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* example stickers */
+.sticker1 {background: url('https://i.imgur.com/0Hg5O1n.png') no-repeat center/contain;}
+.sticker2 {background: url('https://i.imgur.com/qe9gQ6B.png') no-repeat center/contain;}
+.sticker3 {background: url('https://i.imgur.com/kT7Lh9k.png') no-repeat center/contain;} /* example Hello Kitty */
+
 body {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -58,9 +71,9 @@ button:hover {transform:scale(1.1)}
 
 .grid {
     display:grid;
-    grid-template-columns:repeat(8, 1fr); /* smaller grid */
+    grid-template-columns:repeat(8, 1fr);
     gap:6px;
-    margin: 20px auto; /* centered */
+    margin: 20px auto;
     justify-content:center;
 }
 
@@ -81,14 +94,13 @@ button:hover {transform:scale(1.1)}
 #yes {left:50%;transform:translateX(-50%);position:absolute}
 #no {position:absolute;left:10%;top:10px;background:#ddd;color:#666}
 
-.heart, .plushie, .star {
+.heart, .star {
     position: fixed;
     font-size:24px;
     animation: floatUp 4s linear forwards;
     z-index:1;
 }
 
-.plushie {width:50px;height:50px;}
 .star {font-size:18px; animation: sparkleAnim 2s linear infinite; color:yellow;}
 
 @keyframes floatUp {from {transform:translateY(0);opacity:1} to {transform:translateY(-600px);opacity:0}}
@@ -99,6 +111,13 @@ button:hover {transform:scale(1.1)}
 </head>
 
 <body>
+
+<!-- Sanrio stickers in background -->
+<div class="sticker sticker1" style="top:10%; left:5%;"></div>
+<div class="sticker sticker2" style="top:20%; left:80%;"></div>
+<div class="sticker sticker3" style="top:60%; left:50%;"></div>
+<div class="sticker sticker1" style="top:75%; left:20%;"></div>
+<div class="sticker sticker2" style="top:40%; left:35%;"></div>
 
 <div class="card" id="card">
     <div class="bow">🎀</div>
@@ -122,14 +141,14 @@ document.getElementById("start").onclick = () => {
     showGame();
 }
 
-// Smaller & centered word search
+// Word search with only letters
 function showGame(){
     card.innerHTML=`<h1>💗 Word Search 💗</h1>
     <p>Find the words: <strong>LOVE, HEART, HUG, KISS</strong></p>
     <div class="grid" id="grid"></div>`;
 
     const words=["LOVE","HEART","HUG","KISS"];
-    const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ💖🎀🌸💕🧸🐰".split("");
+    const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""); // only letters
     const grid=document.getElementById("grid");
     let selected="";
 
@@ -152,7 +171,6 @@ function winGame(){
     <p>You unlocked something very special 💖</p>
     <button onclick="showQuestion()">Continue 🎀</button>`;
     for(let i=0;i<50;i++) spawnHeart();
-    for(let i=0;i<20;i++) spawnPlushie();
     for(let i=0;i<30;i++) spawnStar();
 }
 
@@ -180,7 +198,6 @@ function celebrate(){
     <p>Happy Valentine’s Day, Eesha 💕</p>
     <p>Distance can’t stop my love 💖</p>`;
     for(let i=0;i<60;i++) spawnHeart();
-    for(let i=0;i<20;i++) spawnPlushie();
     for(let i=0;i<50;i++) spawnStar();
 }
 
@@ -192,17 +209,6 @@ function spawnHeart(){
     heart.style.left=Math.random()*100+"%";
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),4000);
-}
-
-// Floating plushies
-function spawnPlushie(){
-    const img=document.createElement("img");
-    img.src="https://i.imgur.com/qe9gQ6B.png"; // plushie PNG
-    img.className="plushie";
-    img.style.left=Math.random()*100+"%";
-    img.style.bottom="0px";
-    document.body.appendChild(img);
-    setTimeout(()=>img.remove(),4000);
 }
 
 // Floating stars
