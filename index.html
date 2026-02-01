@@ -16,12 +16,7 @@ html, body {
     display: flex;
     justify-content: center;
 }
-
-body {
-    flex-direction: column;
-    align-items: center;
-}
-
+body {flex-direction: column; align-items:center;}
 .card {
     background: rgba(255, 240, 247, 0.95);
     border-radius: 35px;
@@ -30,17 +25,13 @@ body {
     text-align: center;
     box-shadow:0 25px 50px rgba(255,105,180,0.5);
     position: relative;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px 0;
     animation:popIn 0.8s ease;
     z-index:2;
 }
-
 @keyframes popIn {from {transform:scale(0.7); opacity:0} to {transform:scale(1);opacity:1}}
-
 h1 {color:#ff69b4;margin-bottom:15px;font-size:38px}
 p {color:#555;font-size:20px}
-
 button {
     background:#ff69b4;
     border:none;
@@ -54,7 +45,6 @@ button {
     transition: transform 0.1s ease;
 }
 button:hover {transform:scale(1.1)}
-
 .grid {
     display:grid;
     grid-template-columns:repeat(8, 1fr);
@@ -62,7 +52,6 @@ button:hover {transform:scale(1.1)}
     margin: 20px auto;
     justify-content:center;
 }
-
 .cell {
     background:white;
     border-radius:12px;
@@ -73,29 +62,22 @@ button:hover {transform:scale(1.1)}
     box-shadow:0 4px 10px rgba(0,0,0,0.1);
     user-select:none;
 }
-
 .cell.selected {background:#ffb6d9;color:white}
-
 .btns {position:relative;height:80px;margin-top:25px}
 #yes {left:50%;transform:translateX(-50%);position:absolute}
 #no {position:absolute;left:10%;top:10px;background:#ddd;color:#666}
-
 .heart, .star {
     position: fixed;
     font-size:24px;
     animation: floatUp 4s linear forwards;
     z-index:1;
 }
-
 .star {font-size:18px; animation: sparkleAnim 2s linear infinite; color:yellow;}
-
 @keyframes floatUp {from {transform:translateY(0);opacity:1} to {transform:translateY(-600px);opacity:0}}
 @keyframes sparkleAnim {0%{transform:scale(0.5) rotate(0deg);opacity:0.8}50%{transform:scale(1) rotate(180deg);opacity:1}100%{transform:scale(0.5) rotate(360deg);opacity:0.8}}
-
 .bow {font-size:40px}
 </style>
 </head>
-
 <body>
 
 <div class="card" id="card">
@@ -113,20 +95,20 @@ button:hover {transform:scale(1.1)}
 const card = document.getElementById("card");
 const music = document.getElementById("music");
 
-// Start button triggers music reliably
 document.getElementById("start").onclick = () => {
     music.volume = 0.7;
     music.play().catch(()=>{});
     showGame();
 }
 
-// Correct word search
 function showGame(){
     card.innerHTML=`<h1>💗 Word Search 💗</h1>
     <p>Find the words: <strong>LOVE, HEART, HUG, KISS</strong></p>
     <div class="grid" id="grid"></div>`;
 
-    const grid=document.getElementById("grid");
+    const words = ["LOVE","HEART","HUG","KISS"];
+    let foundWords = new Set();
+    const grid = document.getElementById("grid");
 
     // 8x8 grid with words embedded correctly
     const lettersGrid=[
@@ -140,18 +122,33 @@ function showGame(){
         ['O','P','Q','R','S','T','U','V']
     ];
 
+    let selection = "";
+
     for(let row=0; row<8; row++){
         for(let col=0; col<8; col++){
             const div=document.createElement("div");
             div.className="cell";
             div.textContent=lettersGrid[row][col];
-            div.onclick=()=>{ div.classList.add("selected"); };
+            div.dataset.row=row;
+            div.dataset.col=col;
+            div.onclick=()=>{
+                div.classList.add("selected");
+                selection += div.textContent;
+                // Check if any word is fully selected
+                words.forEach(word=>{
+                    if(selection.includes(word) && !foundWords.has(word)){
+                        foundWords.add(word);
+                        alert(`You found: ${word}!`);
+                        if(foundWords.size === words.length) winGame();
+                    }
+                });
+            }
             grid.appendChild(div);
         }
     }
 }
 
-// Win screen triggers after clicking "Continue"
+// Win screen
 function winGame(){
     card.innerHTML=`<h1>✨ You Won! ✨</h1>
     <p>You unlocked something very special 💖</p>
@@ -160,7 +157,7 @@ function winGame(){
     for(let i=0;i<50;i++) spawnStar();
 }
 
-// English Valentine Question
+// Valentine Question
 function showQuestion(){
     card.innerHTML=`<h1>My Love 💕</h1>
     <p>Will you be my Valentine?</p>
@@ -169,13 +166,13 @@ function showQuestion(){
         <button id="no">No 🙄</button>
     </div>`;
 
-    const no=document.getElementById("no");
-    no.onmouseover=()=>{
-        no.style.left=Math.random()*90+"%";
-        no.style.top=Math.random()*70+"px";
+    const no = document.getElementById("no");
+    no.onmouseover = ()=>{
+        no.style.left = Math.random()*90+"%";
+        no.style.top = Math.random()*70+"px";
     }
 
-    document.getElementById("yes").onclick=celebrate;
+    document.getElementById("yes").onclick = celebrate;
 }
 
 // Celebration
